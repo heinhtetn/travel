@@ -25,11 +25,10 @@ class TransportationController extends Controller
             ->addColumn('action', function($a) {
                 
                 
-                $detail = '<a href=" '.route('vehicles.index', ['transportation_id' => $a->id]).'" class="btn btn-info btn-sm" style="margin-right: 10px;">Details</a>';
+                $detail = '<a href=" '.route('vehicles.index', ['transportation' => $a->id]).'" class="btn btn-info btn-sm" style="margin-right: 10px;">Details</a>';
                 $edit = '<a href=" '.route('transportation.edit', $a->id).'" class="btn btn-success btn-sm" style="margin-right: 10px;">Edit</a>';
-                $add = '<a href=" '.route('vehicles.create', ['transportation_id' => $a->id]).'" class="btn btn-secondary btn-sm" style="margin-right: 10px;">Add</a>';
 
-                return '<div class="action">' . $detail . $edit . $add . '</div>';
+                return '<div class="action">' . $detail . $edit . '</div>';
 
             })->rawColumns(['action'])->make(true);
         }

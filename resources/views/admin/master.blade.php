@@ -30,11 +30,15 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
+
             </ul>
+
 
             <!-- Right navbar links -->
 
         </nav>
+
+
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
@@ -86,6 +90,18 @@
                                         <p>Accomodations</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{route('account.index')}}" class="nav-link @yield('users')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Users</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('account.admin')}}" class="nav-link @yield('admins')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Admins</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -101,7 +117,7 @@
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Anything you want
+               <a href="{{route('logout')}}" class="btn btn-success mb-2">Logout</a>
             </div>
             <!-- Default to the left -->
             <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
@@ -167,6 +183,13 @@
                 icon: 'success',
                 title: 'Deleted successfully!'
             })
+            @endif
+            @if(session('success'))
+            Toast.fire({
+                icon: 'success',
+                title: 'Promoted Successfully'
+            })
+                
             @endif
         });
       </script>

@@ -8,24 +8,13 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
-    public function index($transportation_id)
+    public function index(Transportation $transportation)
     {
 
-        if($transportation_id != null)
-        {
-            $vehicles = Vehicle::where('transportation_id', $transportation_id)->get();
+        $vehicles = $transportation->vehicles;
+        $id = $transportation->id;
 
-            if(!($vehicles->isEmpty()))
-            {
-                $id = $vehicles[0]->transportation_id;
-                return view('admin.vehicles.index', compact('vehicles', 'id'));
-            }
-              
-        }
-        else
-        {
-            return 'Fuck';
-        }
+        return view('admin.vehicles.index', compact('vehicles', 'id'));
         
     }
     

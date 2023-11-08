@@ -13,4 +13,9 @@ class AccomodationReview extends Model
     {
         return $this->belongsTo(Accomodation::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

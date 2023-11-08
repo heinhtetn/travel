@@ -15,7 +15,7 @@ class CreateTransportationReviewsTable extends Migration
     {
         Schema::create('transportation_reviews', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->integer('transportation_id');
+            $table->integer('vehicle_id');
             $table->longText('review');
             $table->integer('rating');
             $table->integer('user_id');

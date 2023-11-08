@@ -29,13 +29,12 @@
                     <option value="{{$transportation->from}}" selected>{{ucwords($transportation->from)}}</option>
                     <option value="yangon">Yangon</option>
                     <option value="mandalay">Mandalay</option>
-                    <option value="pegu">Pegu</option>
                 </select>
                 <select class="form-control mb-4" name="to" id="">
                     <option value="{{$transportation->to}}" selected>{{ucwords($transportation->to)}}</option>
-                    <option value="shan">Shan</option>
-                    <option value="kachin">kachin</option>
-                    <option value="mon">Mon</option>
+                    <option value="ShanEast">ShanEast</option>
+                    <option value="ShanNorth">ShanNorth</option>
+                    <option value="ShanSouth">ShanSouth</option>
                 </select>
                 <input type="file" name="image">
                 <button type="submit" class="btn btn-sm btn-success float-right">Save</button>

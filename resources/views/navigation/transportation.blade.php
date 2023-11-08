@@ -32,13 +32,13 @@
             <div class="row">
                 @foreach ($transports as $transport)
                     <div class="col-lg-4 mb-3">
-                        <div class="card" style="width: 18rem; height: 22rem">
+                        <div class="card" style="width: 18rem; height: 23rem">
                             <img class="card-img-top" style="height: 180px" src="{{ url('transportation/' . $transport->image) }}"
                                 alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title mb-3">{{ ucwords($transport->name) }}</h5>
                                 <h6 class="card-text mb-3">{{ $transport->departure_time }}</h6>
-                                <h6 class="card-text">{{ ucwords($transport->from) }} to {{$transport->to}}</h6>
+                                <h6 class="card-text mb-3">{{ ucwords($transport->from) }} to {{ucwords($transport->to)}}</h6>
                                 <a href="{{route('transport.detail', $transport->id)}}" class="btn btn-primary">Check Details</a>
                             </div>
                         </div>

@@ -60,7 +60,6 @@ class UserController extends Controller
                 
                 $stars[] = $total;
             }
-          
         }
         
         return view('users.transportation', compact('vehicles', 'name', 'stars'));
@@ -85,15 +84,14 @@ class UserController extends Controller
 
     public function vehicle_review(Vehicle $vehicle)
     {
-        $reviews = $vehicle->reviews()->orderBy('created_at', 'desc')->paginate(5);
+        $reviews = TransportationReview::with('user')->where('vehicle_id', $vehicle->id)->paginate(3);
+
         return view('users.review', compact('vehicle', 'reviews'));
     }
 
     public function create_vehicle_review(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
             'review' => 'required',
             'rating' => 'required'
         ]);
@@ -103,7 +101,7 @@ class UserController extends Controller
         $review->vehicle_id = $id;
         $review->review = $request->review;
         $review->rating = $request->rating;
-        $review->user_id = 1;
+        $review->user_id = auth()->user()->id;
 
         $review->save();
 
@@ -115,7 +113,7 @@ class UserController extends Controller
 
     public function accomodation_review($location, Accomodation $accomodation)
     {
-        $reviews = $accomodation->reviews()->orderBy('created_at', 'desc')->paginate(5);
+        $reviews = AccomodationReview::with('user')->where('accomodation_id', $accomodation->id)->paginate(3);
 
         return view('users.accomodation_review', compact('reviews', 'accomodation'));
     }
@@ -124,8 +122,6 @@ class UserController extends Controller
     {
         
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
             'review' => 'required',
             'rating' => 'required'
         ]);
@@ -135,7 +131,7 @@ class UserController extends Controller
         $review->accomodation_id = $accomodation->id;
         $review->review = $request->review;
         $review->rating = $request->rating;
-        $review->user_id = 1;
+        $review->user_id = auth()->user()->id;
 
         $review->save();
 

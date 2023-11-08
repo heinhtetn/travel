@@ -33,15 +33,6 @@
                         <form action="{{route('review.make', ['location' => $accomodation->location,'accomodation' =>$accomodation->id])}}" id="reviewForm" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="name">Name *</label>
-                                <input type="text" name="name" class="form-control" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" name="email" class="form-control" id="email">
-                            </div>
-
-                            <div class="form-group">
                                 <label for="message">Message *</label>
                                 <textarea id="message" name="review" cols="30" rows="5" class="form-control"></textarea>
                             </div>
@@ -78,10 +69,9 @@
 
                         @foreach ($reviews as $review)
                             <div class="media mb-4">
-                                <img src="{{ asset('img/user.jpg') }}" alt="Image" class="img-fluid mr-3 mt-1"
-                                    style="width: 45px;">
+                                
                                 <div class="media-body">
-                                    <h6><a href="">John Doe</a>
+                                    <h6><a href="">{{$review->user->name}}</a>
                                         <small><i>{{ $review->created_at->format('F j, Y, g:i a') }}</i></small>
                                     </h6>
                                     <p>{{ $review->review }}</p>

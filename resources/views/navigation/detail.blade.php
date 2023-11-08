@@ -19,7 +19,7 @@
     
     
         <!-- Blog Start -->
-        <div class="container-fluid py-5">
+        <div class="container-fluid">
             <div class="container py-5">
                 <div class="row">
                     <div class="col-lg-12">
@@ -43,68 +43,32 @@
                                 <h2 class="mb-3">Why you should visit this place?</h2>
                                 <p style="text-align: justify">{{$poi->content}}</p>
                                 
-                                <h4 class="mb-3">Est dolor lorem et ea</h4>
-                                <img class="img-fluid w-50 float-left mr-4 mb-2" src="{{asset('img/blog-2.jpg')}}">
-                                <p>Diam dolor est labore duo invidunt ipsum clita et, sed et lorem voluptua tempor
-                                    invidunt at est sanctus sanctus. Clita dolores sit kasd diam takimata justo diam
-                                    lorem sed. Magna amet sed rebum eos. Clita no magna no dolor erat diam tempor
-                                    rebum consetetur, sanctus labore sed nonumy diam lorem amet eirmod. No at tempor
-                                    sea diam kasd, takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at
-                                    lorem invidunt sadipscing rebum sit amet ut ut, voluptua diam dolores at
-                                    sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos. Invidunt sed diam
-                                    dolores takimata dolor dolore dolore sit. Sit ipsum erat amet lorem et, magna
-                                    sea at sed et eos. Accusam eirmod kasd lorem clita sanctus ut consetetur et. Et
-                                    duo tempor sea kasd clita ipsum et.</p>
-                                <h5 class="mb-3">Est dolor lorem et ea</h5>
-                                <img class="img-fluid w-50 float-right ml-4 mb-2" src="{{asset('img/blog-3.jpg')}}">
-                                <p>Diam dolor est labore duo invidunt ipsum clita et, sed et lorem voluptua tempor
-                                    invidunt at est sanctus sanctus. Clita dolores sit kasd diam takimata justo diam
-                                    lorem sed. Magna amet sed rebum eos. Clita no magna no dolor erat diam tempor
-                                    rebum consetetur, sanctus labore sed nonumy diam lorem amet eirmod. No at tempor
-                                    sea diam kasd, takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at
-                                    lorem invidunt sadipscing rebum sit amet ut ut, voluptua diam dolores at
-                                    sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos. Invidunt sed diam
-                                    dolores takimata dolor dolore dolore sit. Sit ipsum erat amet lorem et, magna
-                                    sea at sed et eos. Accusam eirmod kasd lorem clita sanctus ut consetetur et. Et
-                                    duo tempor sea kasd clita ipsum et. Takimata kasd diam justo est eos erat
-                                    aliquyam et ut.</p>
-                            </div>
+                                
                         </div>
                         <!-- Blog Detail End -->
         
                     </div>
         
-                    {{-- <div class="col-lg-4 mt-5 mt-lg-0">
+                    <div class="col-lg-4 mt-5 mt-lg-0">
         
                         <!-- Recent Post -->
-                        <div class="mb-5">
-                            <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Transportation</h4>
-                            @foreach($transportations as $transport)                               
-                                <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="{{route('show.transport', $transport->id)}}">
-                                    <img class="img-fluid" style="width: 200px" src="{{url('transportation/' . $transport->image)}}" alt="">
+                        @if(count($blogs) > 0)
+                            <div class="mb-5">
+                                <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Blogs</h4>
+                                @foreach ($blogs as $blog)
+                                <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="{{route('blogs.detail', $blog->id)}}">
+                                    <img class="img-fluid" style="width: 130px" src="{{asset('img/blog.png')}}" alt="">
                                     <div class="pl-3">
-                                        <h6 class="m-1">{{ucwords($transport->name)}}</h6>
-                                        <p style="font-size: 13px">{{$transport->departure_time}}</p>
+                                        <h6 class="m-1">{{$blog->title}}</h6>
+                                        <small>{{$blog->created_at->format('F j, Y, g:i a')}}</small>
                                     </div>
-                                    
                                 </a>
-                            @endforeach
-                        </div>
-                        <div class="mb-5">
-                            <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Accomodation</h4>
-                            @foreach($ratings as $rating)
-                            <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="{{route('show.accomodation', ['location' => $poi->location ,'rating' => $rating])}}">
-                                <img class="img-fluid" style="width: 200px" src="{{asset('img/hotel1.png')}}" alt="">
-                                <div class="pl-3">
-                                    <h6 class="m-1">{{$rating}} star hotels</h6>
-                                </div>
-                                
-                            </a>
-                            @endforeach
-                            
-                        </div>
+                                @endforeach
+                            </div>
+                        @endif
+
         
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>

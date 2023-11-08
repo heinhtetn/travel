@@ -13,4 +13,9 @@ class TransportationReview extends Model
     {
         return $this->belongsTo(Vehicle::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

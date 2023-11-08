@@ -21,18 +21,18 @@
             <form action="{{route('transportation.store')}}" enctype="multipart/form-data" method="POST" class="border border-rounded shadow-xl p-4 mt-5">
                 @csrf
                 <h3 class="text-center mb-4">Add new transportation</h3>
-                <input type="text" name="name" class="form-control mb-4" placeholder="Name">
-                <input type="text" name="departure_time" class="form-control mb-4" placeholder="Departure time">
+                <input type="text" name="name" value="{{old('name')}}" class="form-control mb-4" placeholder="Name">
+                <input type="text" name="departure_time" value="{{old('departure_time')}}" class="form-control mb-4" placeholder="Departure time">
                 <select class="form-control mb-4" name="from" id="">
                     <option value="">--From---</option>
-                    <option value="yangon">Yangon</option>
-                    <option value="mandalay">Mandalay</option>
+                    <option value="yangon" {{old('from') == 'yangon' ? 'selected' : ''}}>Yangon</option>
+                    <option value="mandalay" {{old('to') == 'mandalay' ? 'selected' : ''}}>Mandalay</option>
                 </select>
                 <select class="form-control mb-4" name="to" id="">
                     <option value="">--To---</option>
-                    <option value="shan(east)">Shan (East)</option>
-                    <option value="shan(south)">Shan (South)</option>
-                    <option value="shan(north)">Shan (North)</option>
+                    <option value="ShanEast">ShanEast</option>
+                    <option value="ShanSouth">ShanSouth</option>
+                    <option value="ShanNorth">ShanNorth</option>
                     <option value="kayah">Kayah</option>
                 </select>
                 <input type="file" name="image">

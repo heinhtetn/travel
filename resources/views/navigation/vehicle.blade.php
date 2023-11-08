@@ -38,8 +38,8 @@
                                 <img class="img-fluid w-100" src="{{url('vehicles/' . $detail->image)}}" alt="">
                             </div>
                             <div class="text-start mx-5 py-4">
-                                <h5 class="text-truncate mb-2">{{ucwords($detail->name)}}</h5>
-                                <p class="mb-3">Departure Place : {{ucwords($detail->starting_point)}}</p>
+                                <h5 class="text-truncate mb-3">{{ucwords($detail->name)}}</h5>
+                                <p class="mb-3">Departure : {{ucwords($detail->starting_point)}}</p>
                                 <p class="mb-3">Departure Time : {{$detail->schedule}}</p>
                                 <p class="mb-3">1 seat : {{$detail->ticket_price}} mmk</p>
                             </div>
