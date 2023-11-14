@@ -51,7 +51,7 @@ class LoginController extends Controller
         {
             if(auth()->user()->is_admin == 1)
             {
-                return redirect()->route('poi.index');
+                return redirect()->route('dashboard');
             }
             else
             {
@@ -64,10 +64,4 @@ class LoginController extends Controller
         }
     }
 
-    public function logout()
-    {
-        Auth::logout();
-
-        return redirect()->route('user.index');
-    }
 }

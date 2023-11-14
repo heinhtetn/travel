@@ -28,6 +28,11 @@
 </head>
 
 <body>
+    @if(session('error'))
+        <div id="flashMessage" class="alert alert-warning text-center">
+            {{session('error')}}
+        </div>
+    @endif
     <!-- Topbar Start -->
     <div class="container-fluid bg-light pt-3 d-none d-lg-block">
         <div class="container">
@@ -40,10 +45,16 @@
                     </div>
                 </div>
                 @auth
-                    <div class="col-lg-6 text-center text-lg-right mb-3">
-                        <a href="{{ route('logout') }}" class="btn btn-primary mr-3">Logout</a>
-                    </div>
+                <div class="col-lg-6 text-center text-lg-right mb-3">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+
+                    <button type="submit" class="btn btn-primary mr-3">Logout</button>
+                             
+                </form>
+                </div>
                 @endauth
+               
                 @guest
                     <div class="col-lg-6 text-center text-lg-right mb-3">
                         <a href="{{ route('login') }}" class="btn btn-primary mr-3">Login</a>
@@ -179,6 +190,13 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
+    
+    <!-- Flash Message -->
+    <script>
+        setTimeout(function() {
+            document.getElementById('flashMessage').style.display = 'none';
+        }, 5000);
+    </script>
 
 </body>
 

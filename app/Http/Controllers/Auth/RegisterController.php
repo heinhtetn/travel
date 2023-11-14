@@ -58,6 +58,6 @@ class RegisterController extends Controller
         $user->password = $password;
         $user->save();
 
-        return redirect()->route('login')->with('message', 'Registered Successfully');
+        return redirect()->route('user.index');
     }
 }

@@ -73,6 +73,12 @@
 
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
+                                    <a href="{{route('dashboard')}}" class="nav-link @yield('dashboard')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Dashboard</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{route('poi.index')}}" class="nav-link @yield('point_of_interest')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Point of interests</p>
@@ -117,8 +123,11 @@
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-               <a href="{{route('logout')}}" class="btn btn-success mb-2">Logout</a>
+               <a href="{{url('/logout')}}" class="btn btn-success mb-2">Logout</a>
             </div>
+            <div class="float-right d-none d-sm-inline mr-5">
+                <a href="{{route('user.index')}}" class="btn btn-primary mb-2">View Website</a>
+             </div>
             <!-- Default to the left -->
             <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
             reserved.

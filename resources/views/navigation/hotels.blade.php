@@ -25,7 +25,7 @@
     <div class="container pt-5 pb-3">
         <div class="text-center mb-3 pb-3">
             <h1>Hotels</h1>
-            <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Explore Top Interesting Places</h6>
+            <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Check out best accomodations</h6>
             
         </div>
         <div class="row">

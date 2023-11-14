@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\AccomodationController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FacebookAuthController;
+use App\Http\Controllers\GithubAuthContoller;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\PlanningnController;
 use App\Http\Controllers\PoiController;
@@ -11,6 +15,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Two\FacebookProvider;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,81 +28,104 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// user start
+// auth
+Route::group(['prefix' => 'auth'], function () {
+
+    Route::get('/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
+    Route::get('/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
+
+
+    // github auth
+    Route::get('/github', [GithubAuthContoller::class, 'redirect'])->name('github-auth');
+    Route::get('/github/callback', [GithubAuthContoller::class, 'callbackGithub']);
+
+    //facebook auth
+    // Route::get('auth/facebook', [FacebookAuthController::class, 'redirect'])->name('facebook-auth');
+    // Route::get('auth/facebook/callback', [FacebookAuthController::class, 'callbackFacebook']);
+});
+
+// user 
 Route::get('/', [UserController::class, 'index'])->name('user.index');
-Route::get('/user/poi', [UserController::class, 'show'])->name('user.poi');
-Route::get('/user/poi/detail/{from}/{poi}', [UserController::class, 'detail'])->name('detail.poi');
-Route::get('/user/transportation/{transportation}', [UserController::class, 'show_transportation'])->name('show.transport');
-Route::get('/user/accomodation/{location}/{rating}', [UserController::class, 'show_accomodation'])->name('show.accomodation');
-Route::get('/user/accomodation/{location}/{accomodation}/rooms', [UserController::class, 'show_rooms'])->name('show.rooms');
-Route::get('/user/accomodation/{location}/{accomodation}/review', [UserController::class, 'accomodation_review'])->name('review.accomodations');
-Route::post('/user/accomodation/{location}/{accomodation}/review', [UserController::class, 'create_accomodation_review'])->name('review.make')->middleware('auth');
-Route::get('/user/transportation/{vehicle}/review', [UserController::class, 'vehicle_review'])->name('review.vehicles');
-Route::post('/user/transportation/{vehicle}/review', [UserController::class, 'create_vehicle_review'])->name('review.create')->middleware('auth');
-//user end
 
-//navigation start
-Route::get('/user/pointofinterests', [NavigationController::class, 'index'])->name('index.poi');
-Route::get('/user/pointofinterests/detail/{poi}', [NavigationController::class, 'detail'])->name('poi.detail');
-Route::get('/user/transportation', [NavigationController::class, 'show_transportation'])->name('transport.show');
-Route::get('/user/transportation/detail/{transportation}', [NavigationController::class, 'detail_transportation'])->name('transport.detail');
-Route::get('/user/hotels', [NavigationController::class, 'show_hotels'])->name('hotels.show');
-Route::get('/user/{accomodation}/rooms', [NavigationController::class, 'show_rooms'])->name('rooms.show');
-Route::get('/user/blogs', [NavigationController::class, 'show_blogs'])->name('blogs.show');
-Route::get('/user/blogs/create', [NavigationController::class, 'new_blog'])->name('blogs.new');
-Route::post('/user/blogs/create', [NavigationController::class, 'create_blog'])->name('blogs.create');
-Route::post('/user/blogs/search', [NavigationController::class, 'search'])->name('blogs.search');
-Route::get('/user/blogs/{blog}', [NavigationController::class, 'blog_detail'])->name('blogs.detail');
-Route::get('/user/contact', [NavigationController::class, 'show_contact'])->name('contact.show');
+Route::group(['prefix' => 'user'], function () {
 
+    Route::get('/poi', [UserController::class, 'show'])->middleware(['auth', 'verified'])->name('user.poi');
+    Route::get('/poi/detail/{from}/{poi}', [UserController::class, 'detail'])->name('detail.poi');
+    Route::get('/transportation/{transportation}', [UserController::class, 'show_transportation'])->name('show.transport');
+    Route::get('/accomodation/{location}/{rating}', [UserController::class, 'show_accomodation'])->name('show.accomodation');
+    Route::get('/accomodation/{location}/{accomodation}/rooms', [UserController::class, 'show_rooms'])->name('show.rooms');
+    Route::get('/accomodation/{location}/{accomodation}/review', [UserController::class, 'accomodation_review'])->name('review.accomodations');
+    Route::post('/accomodation/{location}/{accomodation}/review', [UserController::class, 'create_accomodation_review'])->name('review.make')->middleware(['auth', 'verified']);
+    Route::get('/transportation/{vehicle}/review', [UserController::class, 'vehicle_review'])->name('review.vehicles');
+    Route::post('/transportation/{vehicle}/review', [UserController::class, 'create_vehicle_review'])->name('review.create')->middleware(['auth', 'verified']);
+    //user end
 
-//navigation end
+    //navigation start
+    Route::get('/pointofinterests', [NavigationController::class, 'index'])->name('index.poi');
+    Route::get('/pointofinterests/detail/{poi}', [NavigationController::class, 'detail'])->name('poi.detail');
+    Route::get('/transportation', [NavigationController::class, 'show_transportation'])->name('transport.show');
+    Route::get('/transportation/detail/{transportation}', [NavigationController::class, 'detail_transportation'])->name('transport.detail');
+    Route::get('/hotels', [NavigationController::class, 'show_hotels'])->name('hotels.show');
+    Route::get('/{accomodation}/rooms', [NavigationController::class, 'show_rooms'])->name('rooms.show');
+    Route::get('/blogs', [NavigationController::class, 'show_blogs'])->name('blogs.show');
+    Route::get('/blogs/create', [NavigationController::class, 'new_blog'])->name('blogs.new');
+    Route::post('/blogs/create', [NavigationController::class, 'create_blog'])->middleware(['auth', 'verified'])->name('blogs.create');
+    Route::post('/blogs/search', [NavigationController::class, 'search'])->name('blogs.search');
+    Route::get('/blogs/{blog}', [NavigationController::class, 'blog_detail'])->name('blogs.detail');
+    Route::get('/contact', [NavigationController::class, 'show_contact'])->name('contact.show');
+    Route::post('/contact', [NavigationController::class, 'send_email'])->middleware(['auth', 'verified'])->name('send.email');
+
+    //navigation end
+});
 
 //planning
-Route::get('/planning', [PlanningnController::class, 'index'])->name('plan.index')->middleware('auth');
-Route::get('/planning/{from}', [PlanningnController::class, 'destination'])->name('plan.destination');
-Route::get('/planning/{from}/{to}', [PlanningnController::class, 'choose'])->name('plan.choose');
-Route::get('/planning/{from}/{to}/transportation', [PlanningnController::class, 'transport'])->name('plan.transport');
-Route::post('/planning/{from}/{to}/transportation', [PlanningnController::class, 'transport'])->name('transport.plan');
-Route::get('/planning/{from}/{to}/accomodation', [PlanningnController::class, 'accomodation'])->name('plan.hotel');
-Route::post('/planning/{from}/{to}/accomodation', [PlanningnController::class, 'accomodation'])->name('hotel.plan');
-Route::get('/planning/{from}/{to}/summary', [PlanningnController::class, 'summary'])->name('plan.summary');
-Route::get('/planning/{from}/{to}/{transportation}', [PlanningnController::class, 'vehicle'])->name('plan.vehicle');
-Route::get('/planning/{from}/{to}/{transportation}', [PlanningnController::class, 'vehicle'])->name('plan.vehicle');
-Route::get('/planning/{from}/{to}/{accomodation}/rooms', [PlanningnController::class, 'room'])->name('plan.room');
+Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'planning'], function () {
 
+    Route::get('/', [PlanningnController::class, 'index'])->name('plan.index');
+    Route::get('/{from}', [PlanningnController::class, 'destination'])->name('plan.destination');
+    Route::get('/{from}/{to}', [PlanningnController::class, 'choose'])->name('plan.choose');
+    Route::get('/{from}/{to}/transportation', [PlanningnController::class, 'transport'])->name('plan.transport');
+    Route::post('/{from}/{to}/transportation', [PlanningnController::class, 'transport'])->name('transport.plan');
+    Route::get('/{from}/{to}/accomodation', [PlanningnController::class, 'accomodation'])->name('plan.hotel');
+    Route::post('/{from}/{to}/accomodation', [PlanningnController::class, 'accomodation'])->name('hotel.plan');
+    Route::get('/{from}/{to}/summary', [PlanningnController::class, 'summary'])->name('plan.summary');
+    Route::get('/{from}/{to}/{transportation}', [PlanningnController::class, 'vehicle'])->name('plan.vehicle');
+    Route::get('/{from}/{to}/{transportation}', [PlanningnController::class, 'vehicle'])->name('plan.vehicle');
+    Route::get('/{from}/{to}/{accomodation}/rooms', [PlanningnController::class, 'room'])->name('plan.room');
+});
 
-//planning end
+//admin 
+Route::group(['middleware' => ['auth', 'is_admin'],'prefix' => 'admin'], function () {
+    
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
-//admin start
-Route::resource('/admin/poi', PoiController::class)->middleware('auth');
+    Route::resource('/poi', PoiController::class);
 
-Route::resource('/admin/transportation', TransportationController::class);
+    Route::resource('/transportation', TransportationController::class);
 
-Route::resource('/admin/accomodations', AccomodationController::class);
+    Route::resource('/accomodations', AccomodationController::class);
 
-//vehicles
-Route::get('admin/{transportation}/vehicles/', [VehicleController::class, 'index'])->name('vehicles.index');
-Route::get('admin/{transportation_id}/vehicles/create', [VehicleController::class, 'create'])->name('vehicles.create');
-Route::post('admin/{transportation_id}/vehicles/create', [VehicleController::class, 'store'])->name('vehicles.store');
-Route::get('admin/{transportation}/vehicles/{vehicle}/edit', [VehicleController::class, 'edit'])->name('vehicles.edit');
-Route::post('admin/{transportation}/vehicles/{vehicle}/edit', [VehicleController::class, 'update'])->name('vehicles.update');
-Route::delete('admin/{transportation_id}/vehicles/{id}', [VehicleController::class, 'destroy'])->name('vehicles.destroy');
+    //vehicles
+    Route::get('/{transportation}/vehicles/', [VehicleController::class, 'index'])->name('vehicles.index');
+    Route::get('/{transportation_id}/vehicles/create', [VehicleController::class, 'create'])->name('vehicles.create');
+    Route::post('/{transportation_id}/vehicles/create', [VehicleController::class, 'store'])->name('vehicles.store');
+    Route::get('/{transportation}/vehicles/{vehicle}/edit', [VehicleController::class, 'edit'])->name('vehicles.edit');
+    Route::post('/{transportation}/vehicles/{vehicle}/edit', [VehicleController::class, 'update'])->name('vehicles.update');
+    Route::delete('/{transportation_id}/vehicles/{id}', [VehicleController::class, 'destroy'])->name('vehicles.destroy');
 
-//rooms
-Route::get('admin/{accomodation}/rooms/', [RoomController::class, 'index'])->name('rooms.index');
-Route::get('admin/{accomodation}/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
-Route::post('admin/{acomodation}/rooms/create', [RoomController::class, 'store'])->name('rooms.store');
-Route::get('admin/{accomodation_id}/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
-Route::post('admin/{accomodation_id}/rooms/{room}/edit', [RoomController::class, 'update'])->name('rooms.update');
-Route::delete('admin/{accomodation_id}/rooms/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+    //rooms
+    Route::get('/{accomodation}/rooms/', [RoomController::class, 'index'])->name('rooms.index');
+    Route::get('/{accomodation}/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+    Route::post('/{acomodation}/rooms/create', [RoomController::class, 'store'])->name('rooms.store');
+    Route::get('/{accomodation_id}/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    Route::post('/{accomodation_id}/rooms/{room}/edit', [RoomController::class, 'update'])->name('rooms.update');
+    Route::delete('/{accomodation_id}/rooms/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 
-//accounts
-Route::get('admin/user_accounts', [AccountController::class, 'index'])->name('account.index');
-Route::post('admin/accounts/promote/{user}', [AccountController::class, 'promote_user'])->name('promote.user');
-Route::get('admin/accounts',[AccountController::class, 'account'])->name('account.admin');
-//admin end
+    //accounts
+    Route::get('/user_accounts', [AccountController::class, 'index'])->name('account.index');
+    Route::post('/accounts/promote/{user}', [AccountController::class, 'promote_user'])->name('promote.user');
+    Route::get('/accounts',[AccountController::class, 'account'])->name('account.admin');
+    //admin end
+});
 
-Auth::routes();
-
-Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Auth::routes(['verify' => true]);

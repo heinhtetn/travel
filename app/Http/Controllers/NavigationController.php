@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail;
 use App\Models\Accomodation;
 use App\Models\Blog;
 use App\Models\Poi;
 use App\Models\Transportation;
 use Illuminate\Foundation\Console\ViewClearCommand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class NavigationController extends Controller
 {
@@ -108,5 +110,26 @@ class NavigationController extends Controller
     public function show_contact()
     {
         return view('navigation.contact');
+    }
+
+    public function send_email(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'subject' => 'required',
+            'message' => 'required'
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message
+        ];
+
+        Mail::to('epislon.ra@gmail.com')->send(new ContactMail($data));
+
+        return redirect()->route('contact.show')->with('message', 'Thanks for reaching out');
     }
 }

@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('components.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -61,13 +61,33 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
+                        <div class="row mb-5">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
                             </div>
                         </div>
+                        <div class="col-md-6 offset-md-4">
+                            <a href="{{route('google-auth')}}" class="login-with-google-btn" >
+                                Sign in with Google
+                            </a>
+                            <a href="{{route('github-auth')}}" class="btn btn-secondary" >
+                                <i class="fa-brands fa-github"></i>
+                                Sign in with Github
+                            </a>
+                        </div>
+                            
+                            
+                            
+                            {{-- <a class="btn-fb" href="{{route('facebook-auth')}}">
+                            <div class="fb-content">
+                                <div class="logo">
+                                <img src="https://i.ibb.co/pnpDRC6/facebook.png" alt="" width="32px" height="32px">
+                                </div>
+                                <p class="mt-2">Sign in with Facebook</p>
+                            </div>
+                            </a> --}}
                     </form>
                 </div>
             </div>
