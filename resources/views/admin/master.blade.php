@@ -122,9 +122,12 @@
         <!-- Main Footer -->
         <footer class="main-footer">
             <!-- To the right -->
-            <div class="float-right d-none d-sm-inline">
-               <a href="{{url('/logout')}}" class="btn btn-success mb-2">Logout</a>
-            </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+
+                <button type="submit" class="btn btn-success mr-3 float-right">Logout</button>
+                         
+            </form>
             <div class="float-right d-none d-sm-inline mr-5">
                 <a href="{{route('user.index')}}" class="btn btn-primary mb-2">View Website</a>
              </div>
